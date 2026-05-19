@@ -1,0 +1,21 @@
+# Ignore compiled classes
+bin/
+*.class
+
+# Ignore IDE files
+.idea/
+.vscode/
+*.iml
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore documentation
+README.md
+docs/
+
+# Keep only source and dependencies
+!src/
+!lib/
+!sql/
