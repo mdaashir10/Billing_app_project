@@ -1,11 +1,11 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17-slim
+# Use Eclipse Temurin JDK 17 (official OpenJDK builds)
+FROM eclipse-temurin:17-jdk-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Install netcat for database wait script
-RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+# Install netcat for database wait script (Alpine uses different package name)
+RUN apk add --no-cache netcat-openbsd
 
 # Copy MySQL connector library
 COPY lib/mysql-connector-java-8.0.33.jar /app/lib/
