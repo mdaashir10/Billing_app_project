@@ -8,13 +8,13 @@ WORKDIR /app
 RUN apk add --no-cache netcat-openbsd
 
 # Copy MySQL connector library
-COPY lib/mysql-connector-java-8.0.33.jar /app/lib/
+COPY lib/mysql-connector-java-9.7.0.jar /app/lib/
 
 # Copy source code
 COPY src/ /app/src/
 
 # Compile Java application
-RUN javac -cp "/app/lib/mysql-connector-java-8.0.33.jar" \
+RUN javac -cp "/app/lib/mysql-connector-java-9.7.0.jar" \
     -d /app/bin \
     /app/src/database/*.java \
     /app/src/models/*.java \
@@ -32,4 +32,4 @@ sleep 5\n\
 exec "$@"' > /app/wait-for-mysql.sh && chmod +x /app/wait-for-mysql.sh
 
 # Set classpath and run application
-CMD ["/app/wait-for-mysql.sh", "java", "-cp", "/app/bin:/app/lib/mysql-connector-java-8.0.33.jar", "ui.BillingApp"]
+CMD ["/app/wait-for-mysql.sh", "java", "-cp", "/app/bin:/app/lib/mysql-connector-java-9.7.0.jar", "ui.BillingApp"]
