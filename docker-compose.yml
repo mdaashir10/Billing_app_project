@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: billing_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: billing_app
+      MYSQL_USER: billing_user
+      MYSQL_PASSWORD: billing123
+    ports:
+      - "3307:3306"  # Map to 3307 on host to avoid conflicts
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - billing_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Java Application Service
+  billing_app:
+    build: .
+    container_name: billing_java_app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+    networks:
+      - billing_network
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: billing_app
+      DB_USER: billing_user
+      DB_PASSWORD: billing123
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  billing_network:
+    driver: bridge
