@@ -2,7 +2,19 @@
 
 A simple Java + MySQL billing application running in Docker containers.
 
-## Prerequisites
+## Prerequisites (to run locally)
+
+- javac and mysql installed
+- MySQL Connector JAR file in `lib/` folder
+
+### Run locally
+
+- Give your own password in "src/database/DatabaseConnection.java" at line 18
+- bash/cmd
+$ javac -cp "lib/mysql-connector-j-9.7.0.jar" -d bin src/database/*.java src/models/*.java src/dao/*.java src/ui/*.java
+$ java -cp "bin;lib/mysql-connector-j-9.7.0.jar" ui.BillingApp
+
+## Prerequisites (to run using Docker)
 
 - Docker installed
 - Docker Compose installed

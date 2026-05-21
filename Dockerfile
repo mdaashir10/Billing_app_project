@@ -13,17 +13,18 @@ ENV DISPLAY=:99
 
 # Download MySQL Connector JAR if not present in build context
 RUN mkdir -p /app/lib && \
-    curl -L -o /app/lib/mysql-connector-java-9.7.0.jar \
+    curl -L -o /app/lib/mysql-connector-j-9.7.0.jar \
     https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.7.0/mysql-connector-j-9.7.0.jar
 
 # Copy MySQL connector library from build context (if it exists, it will override the downloaded one)
-COPY lib/mysql-connector-java-8.0.33.jar /app/lib/ 2>/dev/null || true
 
+#COPY lib/mysql-connector-j-9.7.0.jar /app/lib/ 2>/dev/null || true
+COPY lib/mysql-connector-j-9.7.0.ja[r] /app/lib/
 # Copy source code
 COPY src/ /app/src/
 
 # Compile Java application
-RUN javac -cp "/app/lib/mysql-connector-java-9.7.0.jar" \
+RUN javac -cp "/app/lib/mysql-connector-j-9.7.0.jar" \
     -d /app/bin \
     /app/src/database/*.java \
     /app/src/models/*.java \
@@ -48,4 +49,4 @@ exec "$@"' > /app/wait-for-mysql.sh && chmod +x /app/wait-for-mysql.sh
 EXPOSE 5900
 
 # Set classpath and run application
-CMD ["/app/wait-for-mysql.sh", "java", "-cp", "/app/bin:/app/lib/mysql-connector-java-9.7.0.jar", "ui.BillingApp"]
+CMD ["/app/wait-for-mysql.sh", "java", "-cp", "/app/bin:/app/lib/mysql-connector-j-9.7.0.jar", "ui.BillingApp"]

@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS bill_items (
     quantity INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     item_total DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (bill_id) REFERENCES bills(bill_id) ON DELETE CASCADE
 );
 
 -- Sample data
